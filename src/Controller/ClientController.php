@@ -15,7 +15,7 @@ class ClientController extends FOSRestController
 {
   /**
    * Lists all Client.
-   * @Rest\Get("/clients")
+   * @Rest\Get("/client")
    *
    * @return Response
    */

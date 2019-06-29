@@ -1,0 +1,66 @@
+App\Entity\Commande:
+    type: entity
+    table: commande
+    indexes:
+        fk_Commande_id_client:
+            columns:
+                - id_client
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        date:
+            type: date
+            nullable: false
+        ville:
+            type: string
+            nullable: false
+            length: 20
+            options:
+                fixed: false
+        pays:
+            type: string
+            nullable: false
+            length: 20
+            options:
+                fixed: false
+        rue:
+            type: string
+            nullable: false
+            length: 20
+            options:
+                fixed: false
+        codePostal:
+            type: string
+            nullable: false
+            length: 10
+            options:
+                fixed: false
+            column: code_postal
+    manyToOne:
+        idClient:
+            targetEntity: Client
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_client:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        idProduit:
+            targetEntity: Produit
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: idCommande
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

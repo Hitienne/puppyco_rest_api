@@ -1,0 +1,70 @@
+App\Entity\Produit:
+    type: entity
+    table: produit
+    indexes:
+        fk_Produit_id_categorie:
+            columns:
+                - id_categorie
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        titre:
+            type: string
+            nullable: false
+            length: 10
+            options:
+                fixed: false
+        prix:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+        image:
+            type: string
+            nullable: false
+            length: 10
+            options:
+                fixed: false
+        description:
+            type: string
+            nullable: false
+            length: 300
+            options:
+                fixed: false
+    manyToOne:
+        idCategorie:
+            targetEntity: Categorie
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_categorie:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        idCommande:
+            targetEntity: Commande
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: idProduit
+            joinTable:
+                name: contenu
+                joinColumns:
+                    -
+                        name: id_produit
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: id_commande
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

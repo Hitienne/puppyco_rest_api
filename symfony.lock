@@ -147,6 +147,9 @@
             "ref": "384cec52df45f3bfd46a09930d6960a58872b268"
         }
     },
+    "nikic/php-parser": {
+        "version": "v4.2.2"
+    },
     "ocramius/package-versions": {
         "version": "1.4.0"
     },
@@ -265,6 +268,15 @@
     },
     "symfony/intl": {
         "version": "v4.3.2"
+    },
+    "symfony/maker-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
     },
     "symfony/mime": {
         "version": "v4.3.2"

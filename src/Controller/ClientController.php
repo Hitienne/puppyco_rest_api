@@ -9,13 +9,13 @@ use App\Entity\Client;
 use App\Form\ClientType;
 /**
  * Client controller.
- * @Route("/api", name="client_")
+ * @Route("/client", name="client_")
  */
 class ClientController extends FOSRestController
 {
   /**
    * Lists all Client.
-   * @Rest\Get("/client")
+   * @Rest\Get("/clients")
    *
    * @return Response
    */

@@ -15,7 +15,7 @@ class ClientController extends FOSRestController
 {
   /**
    * Lists all Client.
-   * @Rest\Get("/client")
+   * @Rest\Get("/")
    *
    * @return Response
    */
@@ -24,5 +24,28 @@ class ClientController extends FOSRestController
     $repository = $this->getDoctrine()->getRepository(Client::class);
     $clients = $repository->findall();
     return $this->handleView($this->view($clients));
+  }
+
+  /**
+   * Create Client.
+   * @Rest\Post("/")
+   *
+   * @return Response
+   */
+  public function postClientAction(Request $request)
+  {
+    $client= new Client();
+    //créé la fonction qui alimente l'objet avec les données de la requête.
+    $form = $this -> createForm(ClientType::class, $client);
+    $data =json_decode($request->getContent(), true);
+    $form->submit($data);
+  
+    if ($form->isSubmitted() && $form->isValid()) {
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($client);
+      $em->flush();
+      return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+    }
+    return $this->handleView($this->view($form->getErrors()));
   }
 }

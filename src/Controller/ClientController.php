@@ -53,10 +53,12 @@ use App\Form\ClientType;
    */
   public function postClientAction(Request $request)
   {
+    $algo = "sha256";
     $client= new Client();
     //créé la fonction qui alimente l'objet avec les données de la requête.
     $form = $this -> createForm(ClientType::class, $client);
     $data =json_decode($request->getContent(), true);
+    $data[2] = hash ($algo, $data[2]);
     $form->submit($data);
   
     if ($form->isSubmitted() && $form->isValid()) {

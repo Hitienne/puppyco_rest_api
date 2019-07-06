@@ -20,11 +20,29 @@ use App\Form\ClientType;
    *
    * @return Response
    */
-  public function getClientAction()
+  public function getClientsAction()
   {
     $repository = $this->getDoctrine()->getRepository(Client::class);
     $clients = $repository->findall();
     return $this->handleView($this->view($clients));
+  }
+
+  /**
+   * get a Client.
+   * @Rest\Get("/{id}")
+   *
+   * @return Response
+   */
+  public function getClientAction($id)
+  {
+    $repository = $this->getDoctrine()->getRepository(Client::class);
+    $client = $repository->find($id);
+    if(!$client){
+      throw $this->createNotFoundException(
+        'Ce client n\'existe pas.'
+      );
+    }
+    return $this->handleView($this->view($client));
   }
 
   /**
@@ -48,5 +66,33 @@ use App\Form\ClientType;
       return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
     }
     return $this->handleView($this->view($form->getErrors()));
+  }
+  /**
+   * Update Client.
+   * @Rest\Put("/{id}")
+   *
+   * @return Response
+   */
+  public function updateClientAction($id,Request $request){
+    $repository = $this->getDoctrine()->getRepository(Client::class);
+    $client = $repository->find($id);
+    if(!$client){
+      throw $this->createNotFoundException(
+        'Ce client n\'existe pas.'
+      );
+    }
+    $data = json_decode($request->getContent(),true);
+    $form = $this->createForm(ClientType,$client);
+    $form->submit($data);
+
+    if(!$form->isSubmitted() && !$form->isValid()){
+      return $this->handleView($this->view($form->getErrors()));
+    }
+    
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($client);
+    $em->flush();
+
+    return $this->handleView($this->view($client));
   }
 }

@@ -11,7 +11,8 @@ use App\Form\ClientType;
  * Client controller.
  * @Route("/client", name="client_")
  */
-class ClientController extends FOSRestController
+
+ class ClientController extends FOSRestController
 {
   /**
    * Lists all Client.

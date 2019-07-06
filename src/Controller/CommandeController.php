@@ -19,7 +19,7 @@ class CommandeController extends FOSRestController
    *
    * @return Response
    */
-public function getCommandeAction()
+public function getCommandesAction()
   {
     $repository = $this->getDoctrine()->getRepository(Commande::class);
     $commandes = $repository->findall();

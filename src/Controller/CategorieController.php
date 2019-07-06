@@ -19,7 +19,7 @@ class CategorieController extends FOSRestController
    *
    * @return Response
    */
-public function getCategorieAction()
+public function getCategoriesAction()
   {
     $repository = $this->getDoctrine()->getRepository(Categorie::class);
     $categories = $repository->findall();

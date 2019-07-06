@@ -19,7 +19,7 @@ class ProduitController extends FOSRestController
    *
    * @return Response
    */
-public function getProduitAction()
+public function getProduitsAction()
   {
     $repository = $this->getDoctrine()->getRepository(Produit::class);
     $produits = $repository->findall();

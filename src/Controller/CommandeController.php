@@ -25,6 +25,23 @@ public function getCommandeAction()
     $commandes = $repository->findall();
     return $this->handleView($this->view($commandes));
   }
+ /**
+   * get a Commande.
+   * @Rest\Get("/{id}")
+   *
+   * @return Response
+   */
+  public function getCommandeAction($id)
+  {
+    $repository = $this->getDoctrine()->getRepository(Commande::class);
+    $commande = $repository->find($id);
+    if(!$commande){
+      throw $this->createNotFoundException(
+        'Ce commande n\'existe pas.'
+      );
+    }
+    return $this->handleView($this->view($commande));
+  }
 
   /**
    * Create Commande.
@@ -49,4 +66,51 @@ public function postCommandeAction(Request $request)
     return $this->handleView($this->view($form->getErrors()));
     }
 
+    /**
+   * Update Commande.
+   * @Rest\Put("/{id}")
+   *
+   * @return Response
+   */
+  public function updateCommandeAction($id,Request $request){
+    $repository = $this->getDoctrine()->getRepository(Commande::class);
+    $commande = $repository->find($id);
+    if(!$commande){
+      throw $this->createNotFoundException(
+        'Cette commande n\'existe pas.'
+      );
+    }
+    $data = json_decode($request->getContent(),true);
+    $form = $this->createForm(CommandeType::class,$commande);
+    $form->submit($data);
+
+    if(!$form->isSubmitted() && !$form->isValid()){
+      return $this->handleView($this->view($form->getErrors()));
+    }
+    
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($commande);
+    $em->flush();
+
+    return $this->handleView($this->view($client));
+  }
+  /**
+   * Delete Commande.
+   * @Rest\Delete("/{id}")
+   *
+   * @return Response
+   */
+  public function deleteCommandeAction($id){
+    $repository = $this->getDoctrine()->getRepository(Commande::class);
+    $commande = $repository->find($id);
+    if(!$commande){
+      throw $this->createNotFoundException(
+        'Cette commande n\'existe pas.'
+      );
+    } 
+    $em = $this->getDoctrine()->getManager();
+    $em->remove($commande);
+    $em->flush();
+    return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_OK));
+  }
 }

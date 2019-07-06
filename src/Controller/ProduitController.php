@@ -8,13 +8,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 /**
- * Categorie controller.
+ * Produit controller.
  * @Route("/produit", name="produit")
  */
 class ProduitController extends FOSRestController
 {
 /**
-   * Lists all Produit
+   * Lists all Produit.
    * @Rest\Get("/")
    *
    * @return Response
@@ -25,9 +25,25 @@ public function getProduitAction()
     $produits = $repository->findall();
     return $this->handleView($this->view($produits));
   }
-
+/**
+   * get a Produit.
+   * @Rest\Get("/{id}")
+   *
+   * @return Response
+   */
+  public function getProduitAction($id)
+  {
+    $repository = $this->getDoctrine()->getRepository(Produit::class);
+    $produit = $repository->find($id);
+    if(!$produit){
+      throw $this->createNotFoundException(
+        'Ce produit n\'existe pas.'
+      );
+    }
+    return $this->handleView($this->view($produit));
+  }
   /**
-   * Create Produits.
+   * Create Produit.
    * @Rest\Post("/")
    *
    * @return Response
@@ -48,5 +64,51 @@ public function postProduitAction(Request $request)
     }
     return $this->handleView($this->view($form->getErrors()));
     }
+    /**
+   * Update Produit.
+   * @Rest\Put("/{id}")
+   *
+   * @return Response
+   */
+  public function updateProduitAction($id,Request $request){
+    $repository = $this->getDoctrine()->getRepository(Produit::class);
+    $produit = $repository->find($id);
+    if(!$produit){
+      throw $this->createNotFoundException(
+        'Ce produit n\'existe pas.'
+      );
+    }
+    $data = json_decode($request->getContent(),true);
+    $form = $this->createForm(ProduitType::class,$produit);
+    $form->submit($data);
 
+    if(!$form->isSubmitted() && !$form->isValid()){
+      return $this->handleView($this->view($form->getErrors()));
+    }
+    
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($produit);
+    $em->flush();
+
+    return $this->handleView($this->view($produit));
+  }
+  /**
+   * Delete Produit.
+   * @Rest\Delete("/{id}")
+   *
+   * @return Response
+   */
+  public function deleteProduitAction($id){
+    $repository = $this->getDoctrine()->getRepository(Produit::class);
+    $produit = $repository->find($id);
+    if(!$produit){
+      throw $this->createNotFoundException(
+        'Ce produit n\'existe pas.'
+      );
+    } 
+    $em = $this->getDoctrine()->getManager();
+    $em->remove($produit);
+    $em->flush();
+    return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_OK));
+  }
 }

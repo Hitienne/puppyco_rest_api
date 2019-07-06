@@ -14,7 +14,7 @@ use App\Form\CategorieType;
 class CategorieController extends FOSRestController
 {
 /**
-   * Lists all Client.
+   * Lists all Categorie.
    * @Rest\Get("/")
    *
    * @return Response
@@ -24,6 +24,24 @@ public function getCategorieAction()
     $repository = $this->getDoctrine()->getRepository(Categorie::class);
     $categories = $repository->findall();
     return $this->handleView($this->view($categories));
+  }
+
+   /**
+   * get a Categorie.
+   * @Rest\Get("/{id}")
+   *
+   * @return Response
+   */
+  public function getCategorieAction($id)
+  {
+    $repository = $this->getDoctrine()->getRepository(Categorie::class);
+    $categorie = $repository->find($id);
+    if(!$categorie){
+      throw $this->createNotFoundException(
+        'Cette catégorie n\'existe pas.'
+      );
+    }
+    return $this->handleView($this->view($categorie));
   }
 
   /**
@@ -49,4 +67,53 @@ public function postCategorieAction(Request $request)
     return $this->handleView($this->view($form->getErrors()));
     }
 
+     /**
+   * Update Categorie.
+   * @Rest\Put("/{id}")
+   *
+   * @return Response
+   */
+public function updateCategorieAction($id,Request $request)
+    {
+    $repository = $this->getDoctrine()->getRepository(Categorie::class);
+    $categorie = $repository->find($id);
+    if(!$categorie){
+      throw $this->createNotFoundException(
+        'Cette catégorie n\'existe pas.'
+      );
+    }
+    $data = json_decode($request->getContent(),true);
+    $form = $this->createForm(CategorieType::class,$categorie);
+    $form->submit($data);
+
+    if(!$form->isSubmitted() && !$form->isValid()){
+      return $this->handleView($this->view($form->getErrors()));
+    }
+    
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($categorie);
+    $em->flush();
+
+    return $this->handleView($this->view($categorie));
+  }
+
+  /**
+   * Delete Categorie.
+   * @Rest\Delete("/{id}")
+   *
+   * @return Response
+   */
+  public function deleteCategorieAction($id){
+    $repository = $this->getDoctrine()->getRepository(Categorie::class);
+    $categorie = $repository->find($id);
+    if(!$categorie){
+      throw $this->createNotFoundException(
+        'Cette catégorie n\'existe pas.'
+      );
+    } 
+    $em = $this->getDoctrine()->getManager();
+    $em->remove($categorie);
+    $em->flush();
+    return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_OK));
+  }
 }

@@ -82,7 +82,7 @@ use App\Form\ClientType;
       );
     }
     $data = json_decode($request->getContent(),true);
-    $form = $this->createForm(ClientType,$client);
+    $form = $this->createForm(ClientType::class,$client);
     $form->submit($data);
 
     if(!$form->isSubmitted() && !$form->isValid()){
@@ -94,5 +94,24 @@ use App\Form\ClientType;
     $em->flush();
 
     return $this->handleView($this->view($client));
+  }
+  /**
+   * Delete Client.
+   * @Rest\Delete("/{id}")
+   *
+   * @return Response
+   */
+  public function deleteClientAction($id){
+    $repository = $this->getDoctrine()->getRepository(Client::class);
+    $client = $repository->find($id);
+    if(!$client){
+      throw $this->createNotFoundException(
+        'Ce client n\'existe pas.'
+      );
+    } 
+    $em = $this->getDoctrine()->getManager();
+    $em->remove($client);
+    $em->flush();
+    return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_OK));
   }
 }

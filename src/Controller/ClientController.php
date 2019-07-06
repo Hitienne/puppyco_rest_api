@@ -58,7 +58,7 @@ use App\Form\ClientType;
     //créé la fonction qui alimente l'objet avec les données de la requête.
     $form = $this -> createForm(ClientType::class, $client);
     $data =json_decode($request->getContent(), true);
-    $data[2] = hash ($algo, $data[2]);
+    $data['password'] = hash ($algo, $data['password']);
     $form->submit($data);
   
     if ($form->isSubmitted() && $form->isValid()) {

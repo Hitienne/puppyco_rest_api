@@ -54,17 +54,8 @@ App\Entity\Produit:
             targetEntity: Commande
             cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: idProduit
-            joinTable:
-                name: contenu
-                joinColumns:
-                    -
-                        name: id_produit
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    -
-                        name: id_commande
-                        referencedColumnName: id
+            mappedBy: idProduit
+            inversedBy: null
+            joinTable: null
             orderBy: null
     lifecycleCallbacks: {  }

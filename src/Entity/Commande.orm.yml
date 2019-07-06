@@ -18,6 +18,7 @@ App\Entity\Commande:
         date:
             type: date
             nullable: false
+            format: d/m/Y
         ville:
             type: string
             nullable: false

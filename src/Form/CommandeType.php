@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use App\Entity\Commande;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,7 +13,10 @@ class CommandeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('date')
+            ->add('date', DateTimeType::class,[
+                'format' => 'dd/MM/yyyy',
+                'widget' => 'single_text'
+            ])
             ->add('ville')
             ->add('pays')
             ->add('rue')

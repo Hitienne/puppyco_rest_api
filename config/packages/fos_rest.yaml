@@ -12,6 +12,7 @@ fos_rest:
     json: true
   exception:
       enabled: true
+      exception_controller: 'fos_rest.exception.controller:showAction'
   view:
     view_response_listener: 'force'
     formats:

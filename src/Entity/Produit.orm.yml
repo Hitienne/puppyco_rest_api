@@ -2,7 +2,7 @@ App\Entity\Produit:
     type: entity
     table: produit
     indexes:
-        fk_Produit_id_categorie:
+        fk_produit_id_categorie:
             columns:
                 - id_categorie
     id:
@@ -18,7 +18,7 @@ App\Entity\Produit:
         titre:
             type: string
             nullable: false
-            length: 10
+            length: 50
             options:
                 fixed: false
         prix:
@@ -49,3 +49,4 @@ App\Entity\Produit:
                 id_categorie:
                     referencedColumnName: id
             orphanRemoval: false
+    lifecycleCallbacks: {  }

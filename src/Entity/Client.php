@@ -10,6 +10,10 @@ class Client
 
     private $password;
 
+    private $nom;
+
+    private $prenom;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +39,30 @@ class Client
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }

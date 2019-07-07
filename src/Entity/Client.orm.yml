@@ -14,13 +14,25 @@ App\Entity\Client:
         email:
             type: string
             nullable: false
-            length: 10
+            length: 25
             options:
                 fixed: false
         password:
             type: string
             nullable: false
-            length: 32
+            length: 64
+            options:
+                fixed: false
+        nom:
+            type: string
+            nullable: false
+            length: 20
+            options:
+                fixed: false
+        prenom:
+            type: string
+            nullable: false
+            length: 20
             options:
                 fixed: false
     lifecycleCallbacks: {  }

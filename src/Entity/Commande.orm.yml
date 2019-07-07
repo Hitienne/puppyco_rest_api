@@ -2,7 +2,7 @@ App\Entity\Commande:
     type: entity
     table: commande
     indexes:
-        fk_Commande_id_client:
+        fk_commande_id_client:
             columns:
                 - id_client
     id:
@@ -18,7 +18,6 @@ App\Entity\Commande:
         date:
             type: date
             nullable: false
-            format: d/m/Y
         ville:
             type: string
             nullable: false
@@ -61,7 +60,7 @@ App\Entity\Commande:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: idCommande
+            inversedBy: idProduit
             joinTable:
                 name: contenu
                 joinColumns:

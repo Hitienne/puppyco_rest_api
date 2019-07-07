@@ -117,7 +117,6 @@ class Commande
     {
         if (!$this->idProduit->contains($idProduit)) {
             $this->idProduit[] = $idProduit;
-            $idProduit->addIdCommande($this);
         }
 
         return $this;
@@ -127,7 +126,6 @@ class Commande
     {
         if ($this->idProduit->contains($idProduit)) {
             $this->idProduit->removeElement($idProduit);
-            $idProduit->removeIdCommande($this);
         }
 
         return $this;

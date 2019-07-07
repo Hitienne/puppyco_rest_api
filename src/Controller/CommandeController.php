@@ -71,7 +71,7 @@ public function postCommandeAction(Request $request, \Swift_Mailer $mailer)
       $message = (new \Swift_Message('Test'))
         ->setSubject('Recapitulatif de commande : ' . $commande->getId())
         ->setFrom('noreply@puppyco.com')
-        ->setTo('borniche.leo@gmail.com')
+        ->setTo($commande->get)
         ->setBody(
           $this->renderView(
             'emails/commande.html.twig',

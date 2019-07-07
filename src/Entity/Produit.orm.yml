@@ -49,13 +49,3 @@ App\Entity\Produit:
                 id_categorie:
                     referencedColumnName: id
             orphanRemoval: false
-    manyToMany:
-        idCommande:
-            targetEntity: Commande
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: idProduit
-            inversedBy: null
-            joinTable: null
-            orderBy: null
-    lifecycleCallbacks: {  }

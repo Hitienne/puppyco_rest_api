@@ -62,11 +62,26 @@ public function postCommandeAction(Request $request, \Swift_Mailer $mailer)
       $em->persist($commande);
       $em->flush();
 
+      $prix = 0;
+
+      foreach($commande->getIdProduit() as $produit){
+        $prix += $produit->getPrix();
+      }
+      
       $message = (new \Swift_Message('Test'))
-        ->setSubject('Recapitulatif de commande : ')
-        ->setFrom('puppyco.noreply@gmail.com')
+        ->setSubject('Recapitulatif de commande : ' . $commande->getId())
+        ->setFrom('noreply@puppyco.com')
         ->setTo('borniche.leo@gmail.com')
-        ->setBody('Vous avez commandé :');
+        ->setBody(
+          $this->renderView(
+            'emails/commande.html.twig',
+            [
+              'commande' => $commande,
+              'prix' => $prix
+            ]
+          ),
+          'text/html'
+        );
       $mailer->send($message);
 
       return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));

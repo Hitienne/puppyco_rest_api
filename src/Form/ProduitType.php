@@ -17,7 +17,6 @@ class ProduitType extends AbstractType
             ->add('image')
             ->add('description')
             ->add('idCategorie')
-            ->add('idCommande')
         ;
     }
 

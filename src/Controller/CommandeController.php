@@ -49,7 +49,7 @@ public function getCommandesAction()
    *
    * @return Response
    */
-public function postCommandeAction(Request $request)
+public function postCommandeAction(Request $request, \Swift_Mailer $mailer)
     {
     $commande= new Commande();
     //créé la fonction qui alimente l'objet avec les données de la requête.
@@ -58,10 +58,18 @@ public function postCommandeAction(Request $request)
     $form->submit($data);
 
     if ($form->isSubmitted() && $form->isValid()) {
-    $em = $this->getDoctrine()->getManager();
-    $em->persist($commande);
-    $em->flush();
-    return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+      $em = $this->getDoctrine()->getManager();
+      $em->persist($commande);
+      $em->flush();
+
+      $message = (new \Swift_Message('Test'))
+        ->setSubject('Recapitulatif de commande : ')
+        ->setFrom('puppyco.noreply@gmail.com')
+        ->setTo('borniche.leo@gmail.com')
+        ->setBody('Vous avez commandé :');
+      $mailer->send($message);
+
+      return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
     }
     return $this->handleView($this->view($form->getErrors()));
     }

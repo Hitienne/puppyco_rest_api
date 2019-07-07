@@ -2,9 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
 class Produit
 {
     private $id;
@@ -18,13 +15,6 @@ class Produit
     private $description;
 
     private $idCategorie;
-
-    private $idCommande;
-
-    public function __construct()
-    {
-        $this->idCommande = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -87,32 +77,6 @@ class Produit
     public function setIdCategorie(?Categorie $idCategorie): self
     {
         $this->idCategorie = $idCategorie;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Commande[]
-     */
-    public function getIdCommande(): Collection
-    {
-        return $this->idCommande;
-    }
-
-    public function addIdCommande(Commande $idCommande): self
-    {
-        if (!$this->idCommande->contains($idCommande)) {
-            $this->idCommande[] = $idCommande;
-        }
-
-        return $this;
-    }
-
-    public function removeIdCommande(Commande $idCommande): self
-    {
-        if ($this->idCommande->contains($idCommande)) {
-            $this->idCommande->removeElement($idCommande);
-        }
 
         return $this;
     }

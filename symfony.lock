@@ -147,6 +147,9 @@
             "ref": "384cec52df45f3bfd46a09930d6960a58872b268"
         }
     },
+    "monolog/monolog": {
+        "version": "1.24.0"
+    },
     "nikic/php-parser": {
         "version": "v4.2.2"
     },
@@ -175,6 +178,18 @@
         },
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
+        ]
+    },
+    "symfony/apache-pack": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "c82bead70f9a4f656354a193df7bf0ca2114efa0"
+        },
+        "files": [
+            "public/.htaccess"
         ]
     },
     "symfony/cache": {
@@ -280,6 +295,23 @@
     },
     "symfony/mime": {
         "version": "v4.3.2"
+    },
+    "symfony/monolog-bridge": {
+        "version": "v4.3.2"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6240c6d43e8237a32452f057f81816820fd56ab6"
+        },
+        "files": [
+            "config/packages/dev/monolog.yaml",
+            "config/packages/prod/monolog.yaml",
+            "config/packages/test/monolog.yaml"
+        ]
     },
     "symfony/options-resolver": {
         "version": "v4.3.2"

@@ -2,9 +2,11 @@
 namespace App\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\FOSRestController;
+//use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;//add
+use Symfony\Component\Routing\Annotation\Route;//add
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use App\Entity\Client;
 use App\Form\ClientType;
 /**
@@ -12,7 +14,7 @@ use App\Form\ClientType;
  * @Route("/client", name="client_")
  */
 
- class ClientController extends FOSRestController
+ class ClientController extends AbstractFOSRestController//add
 {
   /**
    * Lists all Client.

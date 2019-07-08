@@ -2,4 +2,27 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 
+api_login_check:
+    path: /api/login_check
+
+Client:
+    type      : rest
+    resource  : App\Controller\ClientController
+    prefix    : api
+
+Commande:
+    type      : rest
+    resource  : App\Controller\CommandeController
+    prefix    : api
+
+Produit:
+    type      : rest
+    resource  : App\Controller\ProduitController
+    prefix    : api
+
+Categorie:
+    type      : rest
+    resource  : App\Controller\CategorieController
+    prefix    : api
+
 

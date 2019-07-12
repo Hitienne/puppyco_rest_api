@@ -19,13 +19,13 @@ class Commande
 
     private $codePostal;
 
-    private $idClient;
+    private $produit;
 
-    private $idProduit;
+    private $idClient;
 
     public function __construct()
     {
-        $this->idProduit = new ArrayCollection();
+        $this->produit = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,6 +93,37 @@ class Commande
         return $this;
     }
 
+    /**
+     * @return Collection|Contenu[]
+     */
+    public function getProduit(): Collection
+    {
+        return $this->produit;
+    }
+
+    public function addProduit(Contenu $produit): self
+    {
+        if (!$this->produit->contains($produit)) {
+            $this->produit[] = $produit;
+            $produit->setIdCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Contenu $produit): self
+    {
+        if ($this->produit->contains($produit)) {
+            $this->produit->removeElement($produit);
+            // set the owning side to null (unless already changed)
+            if ($produit->getIdCommande() === $this) {
+                $produit->setIdCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getIdClient(): ?Client
     {
         return $this->idClient;
@@ -101,32 +132,6 @@ class Commande
     public function setIdClient(?Client $idClient): self
     {
         $this->idClient = $idClient;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Produit[]
-     */
-    public function getIdProduit(): Collection
-    {
-        return $this->idProduit;
-    }
-
-    public function addIdProduit(Produit $idProduit): self
-    {
-        if (!$this->idProduit->contains($idProduit)) {
-            $this->idProduit[] = $idProduit;
-        }
-
-        return $this;
-    }
-
-    public function removeIdProduit(Produit $idProduit): self
-    {
-        if ($this->idProduit->contains($idProduit)) {
-            $this->idProduit->removeElement($idProduit);
-        }
 
         return $this;
     }

@@ -64,22 +64,15 @@ public function postCommandeAction(Request $request, \Swift_Mailer $mailer)
 
       $prix = 0;
 
-      foreach($commande->getIdProduit() as $produit){
-        $prix += $produit->getPrix();
+      foreach($commande->getProduit() as $produit){
+        $prix += $produit->getIdProduit()->getPrix();
       }
       
       $message = (new \Swift_Message('Test'))
         ->setSubject('Recapitulatif de commande : ' . $commande->getId())
         ->setFrom('noreply@puppyco.com')
-        ->setTo($commande->get)
+        ->setTo($commande->getIdClient()->getEmail())
         ->setBody(
-          $this->renderView(
-            'emails/commande.html.twig',
-            [
-              'commande' => $commande,
-              'prix' => $prix
-            ]
-          ),
           'text/html'
         );
       $mailer->send($message);

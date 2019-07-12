@@ -1,8 +1,10 @@
 CREATE TABLE `contenu` (
+    `id` int NOT NULL ,
     `id_produit` int  NOT NULL ,
     `id_commande` int  NOT NULL ,
+    `quantite` int NOT NULL ,
     PRIMARY KEY (
-        `id_produit`,`id_commande`
+        `id`
     )
 );
 

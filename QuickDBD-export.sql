@@ -45,6 +45,7 @@ CREATE TABLE `client` (
     `id` int AUTO_INCREMENT NOT NULL ,
     `email` varchar(25)  NOT NULL ,
     `password` varchar(64)  NOT NULL ,
+    `roles` json NOT NULL ,
     `nom` varchar(20)  NOT NULL ,
     `prenom` varchar(20)  NOT NULL ,
     PRIMARY KEY (

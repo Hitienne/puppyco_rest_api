@@ -54,9 +54,4 @@ App\Entity\Commande:
                 id_client:
                     referencedColumnName: id
             orphanRemoval: false
-    oneToMany:
-        produit:
-            targetEntity: Contenu
-            fetch: LAZY
-            mappedBy: idCommande
     lifecycleCallbacks: {  }

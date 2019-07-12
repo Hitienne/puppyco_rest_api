@@ -2,31 +2,69 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Commande
+ *
+ * @ORM\Table(name="commande", indexes={@ORM\Index(name="fk_commande_id_client", columns={"id_client"})})
+ * @ORM\Entity
+ */
 class Commande
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
     private $id;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="date", nullable=false)
+     */
     private $date;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ville", type="string", length=20, nullable=false)
+     */
     private $ville;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pays", type="string", length=20, nullable=false)
+     */
     private $pays;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rue", type="string", length=20, nullable=false)
+     */
     private $rue;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code_postal", type="string", length=10, nullable=false)
+     */
     private $codePostal;
 
-    private $produit;
-
+    /**
+     * @var \Client
+     *
+     * @ORM\ManyToOne(targetEntity="Client")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
+     * })
+     */
     private $idClient;
-
-    public function __construct()
-    {
-        $this->produit = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -93,37 +131,6 @@ class Commande
         return $this;
     }
 
-    /**
-     * @return Collection|Contenu[]
-     */
-    public function getProduit(): Collection
-    {
-        return $this->produit;
-    }
-
-    public function addProduit(Contenu $produit): self
-    {
-        if (!$this->produit->contains($produit)) {
-            $this->produit[] = $produit;
-            $produit->setIdCommande($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Contenu $produit): self
-    {
-        if ($this->produit->contains($produit)) {
-            $this->produit->removeElement($produit);
-            // set the owning side to null (unless already changed)
-            if ($produit->getIdCommande() === $this) {
-                $produit->setIdCommande(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getIdClient(): ?Client
     {
         return $this->idClient;
@@ -135,4 +142,6 @@ class Commande
 
         return $this;
     }
+
+
 }

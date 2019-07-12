@@ -16,15 +16,15 @@ security:
             security: false
 
         login:
-            pattern: ^/api/login
+            pattern: ^/login
             stateless: true
             anonymous: true
             json_login:
-                check_path: /api/login_check
+                check_path: /login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         api:
-            pattern: ^/api
+            pattern: ^/
             stateless: true
             guard:
                 authenticators:

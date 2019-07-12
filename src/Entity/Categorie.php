@@ -24,4 +24,5 @@ class Categorie
 
         return $this;
     }
+   
 }

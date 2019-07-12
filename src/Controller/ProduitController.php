@@ -2,16 +2,16 @@
 namespace App\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 /**
  * Produit controller.
  * @Route("/produit", name="produit")
  */
-class ProduitController extends FOSRestController
+class ProduitController extends AbstractFOSRestController
 {
 /**
    * Lists all Produit.

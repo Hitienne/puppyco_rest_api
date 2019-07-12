@@ -1,8 +1,10 @@
 CREATE TABLE `contenu` (
+    `id` int NOT NULL ,
     `id_produit` int  NOT NULL ,
     `id_commande` int  NOT NULL ,
+    `quantite` int NOT NULL ,
     PRIMARY KEY (
-        `id_produit`,`id_commande`
+        `id`
     )
 );
 
@@ -43,6 +45,7 @@ CREATE TABLE `client` (
     `id` int AUTO_INCREMENT NOT NULL ,
     `email` varchar(25)  NOT NULL ,
     `password` varchar(64)  NOT NULL ,
+    `roles` json NOT NULL ,
     `nom` varchar(20)  NOT NULL ,
     `prenom` varchar(20)  NOT NULL ,
     PRIMARY KEY (

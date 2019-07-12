@@ -22,7 +22,6 @@ class CommandeType extends AbstractType
             ->add('rue')
             ->add('codePostal')
             ->add('idClient')
-            ->add('idProduit')
         ;
     }
 

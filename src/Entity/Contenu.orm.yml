@@ -1,0 +1,47 @@
+App\Entity\Contenu:
+    type: entity
+    table: contenu
+    indexes:
+        fk_contenu_id_commande:
+            columns:
+                - id_commande
+        fk_contenu_id_produit:
+            columns:
+                - id_produit
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        quantite:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+    manyToOne:
+        idCommande:
+            targetEntity: Commande
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_commande:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idProduit:
+            targetEntity: Produit
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_produit:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

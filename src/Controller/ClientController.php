@@ -47,7 +47,7 @@ use App\Form\ClientType;
 
   /**
    * Create Client.
-   * @Rest\Post("/")
+   * @Rest\Post("/register")
    *
    * @return Response
    */
@@ -55,19 +55,20 @@ use App\Form\ClientType;
   {
     $algo = "sha256";
     $client= new Client();
-    //créé la fonction qui alimente l'objet avec les données de la requête.
-    $form = $this -> createForm(ClientType::class, $client);
     $data =json_decode($request->getContent(), true);
-    //$data['password'] = hash ($algo, $data['password']);
-    $form->submit($data);
-  
-    if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($client);
-      $em->flush();
-      return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
-    }
-    return $this->handleView($this->view($form->getErrors()));
+    $data['password'] = hash ($algo, $data['password']);
+    
+    $client->setEmail($data['email']);
+    $client->setPassword($data['password']);
+    $client->setNom($data['nom']);
+    $client->setPrenom($data['prenom']);
+    $client->setRoles($data['roles']);
+
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($client);
+    $em->flush();
+    return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+    
   }
   /**
    * Update Client.

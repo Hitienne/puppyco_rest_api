@@ -27,7 +27,7 @@ public function getProduitsAction()
   }
 /**
    * get a Produit.
-   * @Rest\Get("/{id}")
+   * @Rest\Get("/produit/{id}")
    *
    * @return Response
    */
@@ -42,6 +42,23 @@ public function getProduitsAction()
     }
     return $this->handleView($this->view($produit));
   }
+  /**
+   * Get Random Produits.
+   * @Rest\Get("/random")
+   *
+   * @return Response
+   */
+public function getRandomProduitAction(Request $request){
+  $repository = $this->getDoctrine()->getRepository(Produit::class);
+  $query = $repository
+    ->createQueryBuilder('y')
+    ->select('y')
+    ->orderBy('RAND()')
+    ->setMaxResults(6)
+    ->getQuery()
+    ->getResult();
+  return $this->handleView($this->view($query));
+}
   /**
    * Create Produit.
    * @Rest\Post("/")

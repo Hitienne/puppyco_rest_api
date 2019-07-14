@@ -27,6 +27,11 @@ security:
             pattern: ^/client/register
             stateless: true
             anonymous: true
+        produits:
+            pattern: ^/produit
+            stateless: true
+            anonymous: true
+            methods: GET
         api:
             pattern: ^/
             stateless: true

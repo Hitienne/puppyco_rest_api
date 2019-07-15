@@ -62,7 +62,7 @@ use App\Form\ClientType;
     $client->setPassword($data['password']);
     $client->setNom($data['nom']);
     $client->setPrenom($data['prenom']);
-    $client->setRoles($data['roles']);
+    $client->setRoles(['ROLE_USER']);
 
     $em = $this->getDoctrine()->getManager();
     $em->persist($client);

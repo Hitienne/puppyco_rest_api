@@ -2,61 +2,20 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * Produit
- *
- * @ORM\Table(name="produit", indexes={@ORM\Index(name="fk_produit_id_categorie", columns={"id_categorie"})})
- * @ORM\Entity
- */
 class Produit
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=50, nullable=false)
-     */
     private $titre;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
-     */
     private $prix;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=10, nullable=false)
-     */
-    private $image;
+    private $images = [];
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=300, nullable=false)
-     */
     private $description;
 
-    /**
-     * @var \Categorie
-     *
-     * @ORM\ManyToOne(targetEntity="Categorie")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_categorie", referencedColumnName="id")
-     * })
-     */
+    private $stock;
+
     private $idCategorie;
 
     public function getId(): ?int
@@ -88,14 +47,14 @@ class Produit
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getImages(): ?array
     {
-        return $this->image;
+        return $this->images;
     }
 
-    public function setImage(string $image): self
+    public function setImages(array $images): self
     {
-        $this->image = $image;
+        $this->images = $images;
 
         return $this;
     }
@@ -112,6 +71,18 @@ class Produit
         return $this;
     }
 
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(?int $stock): self
+    {
+        $this->stock = $stock;
+
+        return $this;
+    }
+
     public function getIdCategorie(): ?Categorie
     {
         return $this->idCategorie;
@@ -123,5 +94,4 @@ class Produit
 
         return $this;
     }
-
 }

@@ -7,6 +7,8 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Produit;
 use App\Form\ProduitType;
+use App\Entity\Categorie;
+
 /**
  * Produit controller.
  * @Route("/produit", name="produit")
@@ -27,7 +29,7 @@ public function getProduitsAction()
   }
 /**
    * get a Produit.
-   * @Rest\Get("/{id}")
+   * @Rest\Get("/produit/{id}")
    *
    * @return Response
    */
@@ -43,13 +45,29 @@ public function getProduitsAction()
     return $this->handleView($this->view($produit));
   }
   /**
+   * Get Random Produits.
+   * @Rest\Get("/random")
+   *
+   * @return Response
+   */
+public function getRandomProduitAction(Request $request){
+  $repository = $this->getDoctrine()->getRepository(Produit::class);
+  $query = $repository
+    ->createQueryBuilder('y')
+    ->select('y')
+    ->orderBy('RAND()')
+    ->setMaxResults(6)
+    ->getQuery()
+    ->getResult();
+  return $this->handleView($this->view($query));
+}
+  /**
    * Create Produit.
    * @Rest\Post("/")
    *
    * @return Response
    */
-public function postProduitAction(Request $request)
-    {
+public function postProduitAction(Request $request){
     $produit= new Produit();
     //créé la fonction qui alimente l'objet avec les données de la requête.
     $form = $this -> createForm(ProduitType::class, $produit);
@@ -63,8 +81,9 @@ public function postProduitAction(Request $request)
     return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
     }
     return $this->handleView($this->view($form->getErrors()));
-    }
-    /**
+}
+
+  /**
    * Update Produit.
    * @Rest\Put("/{id}")
    *
@@ -110,5 +129,25 @@ public function postProduitAction(Request $request)
     $em->remove($produit);
     $em->flush();
     return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_OK));
+  }
+  
+  /**
+   * Delete Produit.
+   * @Rest\Get("/categorie/{id}")
+   *
+   * @return Response
+  */
+  public function getProduitByCategorieAction($id){
+    $repository = $this->getDoctrine()->getRepository(Produit::class);
+    $catRepo = $this->getDoctrine()->getRepository(Categorie::class);
+    $cat = $catRepo->find($id);
+    if(!$cat){
+      throw $this->createNotFoundException(
+        'Cette categorie n\'existe pas.'
+      );
+    }
+    $produits = $repository->findBy(['idCategorie' => $id]);
+    return $this->handleView($this->view($produits));
+
   }
 }

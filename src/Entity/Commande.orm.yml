@@ -54,22 +54,4 @@ App\Entity\Commande:
                 id_client:
                     referencedColumnName: id
             orphanRemoval: false
-    manyToMany:
-        idProduit:
-            targetEntity: Produit
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: idProduit
-            joinTable:
-                name: contenu
-                joinColumns:
-                    -
-                        name: id_commande
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    -
-                        name: id_produit
-                        referencedColumnName: id
-            orderBy: null
     lifecycleCallbacks: {  }

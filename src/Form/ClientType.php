@@ -13,10 +13,11 @@ class ClientType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
             ->add('password')
+            ->add('roles')
             ->add('nom')
             ->add('prenom')
+            
         ;
     }
 
@@ -24,7 +25,7 @@ class ClientType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Client::class,
-            'csrf_protection' => false
+            'csrf_protection'   => false
         ]);
     }
 }

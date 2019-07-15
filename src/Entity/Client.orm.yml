@@ -17,18 +17,15 @@ App\Entity\Client:
             length: 25
             options:
                 fixed: false
-        roles:
-            type: string
-            nullable: false
-            length: 25
-            options:
-                fixed: false
         password:
             type: string
             nullable: false
             length: 64
             options:
                 fixed: false
+        roles:
+            type: json
+            nullable: false
         nom:
             type: string
             nullable: false

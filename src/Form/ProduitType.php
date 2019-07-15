@@ -14,7 +14,7 @@ class ProduitType extends AbstractType
         $builder
             ->add('titre')
             ->add('prix')
-            ->add('image')
+            ->add('stock')
             ->add('description')
             ->add('idCategorie')
         ;
@@ -24,7 +24,8 @@ class ProduitType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Produit::class,
-            'csrf_protection'   => false
+            'csrf_protection'   => false,
+            'allow_extra_fields' => true
         ]);
     }
 }

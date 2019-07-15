@@ -73,7 +73,7 @@ public function postProduitAction(Request $request){
     $form = $this -> createForm(ProduitType::class, $produit);
     $data =json_decode($request->getContent(), true);
     $form->submit($data);
-
+    $produit->setImages($data['images']);
     if ($form->isSubmitted() && $form->isValid()) {
     $em = $this->getDoctrine()->getManager();
     $em->persist($produit);

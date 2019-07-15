@@ -32,6 +32,11 @@ security:
             stateless: true
             anonymous: true
             methods: GET
+        categorie:
+            pattern: ^/categorie
+            stateless: true
+            anonymous: true
+            methods: GET
         api:
             pattern: ^/
             stateless: true

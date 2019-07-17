@@ -67,7 +67,7 @@ use App\Form\ClientType;
     $em = $this->getDoctrine()->getManager();
     $em->persist($client);
     $em->flush();
-    return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
+    return $this->handleView($this->view($client, Response::HTTP_CREATED));
     
   }
   /**

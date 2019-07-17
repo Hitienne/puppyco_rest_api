@@ -44,6 +44,27 @@ public function getProduitsAction()
     }
     return $this->handleView($this->view($produit));
   }
+
+  /**
+   * get a ProduitRecherche.
+   * @Rest\Get("/recherche/{produitRecherche}")
+   *
+   * @return Response
+   */
+  public function getProduitRechercheAction($produitRecherche)
+  {
+    $repository = $this->getDoctrine()->getRepository(Produit::class);
+    $query = $repository
+    ->createQueryBuilder('y')
+    ->select('y')
+    ->where('y.titre LIKE :titre OR y.description like :titre')
+    ->setParameter('titre', '%'.$produitRecherche.'%')
+    ->orderBy('y.titre', 'DESC')
+    ->getQuery()
+    ->getResult();
+    return $this->handleView($this->view($query));
+  }
+
   /**
    * Get Random Produits.
    * @Rest\Get("/random")

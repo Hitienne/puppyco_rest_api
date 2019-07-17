@@ -46,6 +46,20 @@ public function getProduitsAction()
   }
 
   /**
+   * get multiple products
+   * @Rest\Get("/multiple")
+   *
+   * @return Response
+   */
+  public function getProduitsByIds(Request $request)
+  {
+    $repository = $this->getDoctrine()->getRepository(Produit::class);
+    $id = json_decode($request->getContent(),true)['ids'];
+    $produits = $repository->findById($id);
+    return $this->handleView($this->view($produits));
+  }
+
+  /**
    * get a ProduitRecherche.
    * @Rest\Get("/recherche/{produitRecherche}")
    *

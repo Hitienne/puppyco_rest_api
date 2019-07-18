@@ -29,7 +29,7 @@ App\Entity\Contenu:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: contenu
             joinColumns:
                 id_commande:
                     referencedColumnName: id

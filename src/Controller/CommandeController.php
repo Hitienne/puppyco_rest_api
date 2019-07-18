@@ -6,6 +6,8 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;//add
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Commande;
+use App\Entity\Contenu;
+use App\Entity\Produit;
 use App\Form\CommandeType;
 /**
  * Commande controller.
@@ -37,7 +39,7 @@ public function getCommandesAction()
     $commande = $repository->find($id);
     if(!$commande){
       throw $this->createNotFoundException(
-        'Ce commande n\'existe pas.'
+        'Cette commande n\'existe pas.'
       );
     }
     return $this->handleView($this->view($commande));
@@ -52,6 +54,7 @@ public function getCommandesAction()
 public function postCommandeAction(Request $request, \Swift_Mailer $mailer)
     {
     $commande= new Commande();
+  
     //créé la fonction qui alimente l'objet avec les données de la requête.
     $form = $this -> createForm(CommandeType::class, $commande);
     $data =json_decode($request->getContent(), true);
@@ -61,18 +64,38 @@ public function postCommandeAction(Request $request, \Swift_Mailer $mailer)
       $em = $this->getDoctrine()->getManager();
       $em->persist($commande);
       $em->flush();
-
+      
+      foreach($data['produits'] as $produit){
+        $contenu= new Contenu();
+        $repository = $this->getDoctrine()->getRepository(Produit::class);
+        $produitEnt = $repository->find($produit['id']);
+        $contenu->setIdProduit($produitEnt);
+        $contenu->setIdCommande($commande);
+        $contenu->setQuantite($produit['qte']);
+        $commande->addContenu($contenu);
+        $em->persist($contenu);
+        $em->flush();
+      }
+      
+      
       $prix = 0;
 
-      foreach($commande->getProduit() as $produit){
+      foreach($commande->getContenu() as $produit){
         $prix += $produit->getIdProduit()->getPrix();
       }
       
-      $message = (new \Swift_Message('Test'))
+      $message = (new \Swift_Message('wesh'))
         ->setSubject('Recapitulatif de commande : ' . $commande->getId())
         ->setFrom('noreply@puppyco.com')
-        ->setTo($commande->getIdClient()->getEmail())
+        ->setTo('borniche.leo@gmail.com')
         ->setBody(
+          $this->renderView(
+            'emails/commande.html.twig',
+            [
+              'commande' => $commande,
+              'prix' => $prix
+            ]
+          ),
           'text/html'
         );
       $mailer->send($message);

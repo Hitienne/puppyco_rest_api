@@ -2,69 +2,31 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
-/**
- * Commande
- *
- * @ORM\Table(name="commande", indexes={@ORM\Index(name="fk_commande_id_client", columns={"id_client"})})
- * @ORM\Entity
- */
 class Commande
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
     private $id;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date", nullable=false)
-     */
     private $date;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ville", type="string", length=20, nullable=false)
-     */
     private $ville;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pays", type="string", length=20, nullable=false)
-     */
     private $pays;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="rue", type="string", length=20, nullable=false)
-     */
     private $rue;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="code_postal", type="string", length=10, nullable=false)
-     */
     private $codePostal;
 
-    /**
-     * @var \Client
-     *
-     * @ORM\ManyToOne(targetEntity="Client")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_client", referencedColumnName="id")
-     * })
-     */
+    private $contenu;
+
     private $idClient;
+
+    public function __construct()
+    {
+        $this->contenu = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -131,6 +93,37 @@ class Commande
         return $this;
     }
 
+    /**
+     * @return Collection|Contenu[]
+     */
+    public function getContenu(): Collection
+    {
+        return $this->contenu;
+    }
+
+    public function addContenu(Contenu $contenu): self
+    {
+        if (!$this->contenu->contains($contenu)) {
+            $this->contenu[] = $contenu;
+            $contenu->setIdCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContenu(Contenu $contenu): self
+    {
+        if ($this->contenu->contains($contenu)) {
+            $this->contenu->removeElement($contenu);
+            // set the owning side to null (unless already changed)
+            if ($contenu->getIdCommande() === $this) {
+                $contenu->setIdCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getIdClient(): ?Client
     {
         return $this->idClient;
@@ -142,6 +135,4 @@ class Commande
 
         return $this;
     }
-
-
 }
